@@ -155,7 +155,7 @@ export default function UploadForm() {
 
         const { error: dbError } = await supabase
           .from('media_items')
-          .insert([mediaItem]);
+          .insert([mediaItem] as any);
 
         if (dbError) {
           throw new Error(`Failed to save metadata: ${dbError.message}`);
