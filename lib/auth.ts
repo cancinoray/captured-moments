@@ -63,17 +63,25 @@ export async function authenticateAdmin(username: string, password: string): Pro
       .eq('username', username)
       .single();
 
-    if (error || !data) {
+    if (error) {
+      console.error('Supabase error fetching admin user:', error);
+      return null;
+    }
+
+    if (!data) {
+      console.log('No admin user found with username:', username);
       return null;
     }
 
     const isValid = await verifyPassword(password, data.password_hash);
     if (!isValid) {
+      console.log('Password verification failed for username:', username);
       return null;
     }
 
     return data;
-  } catch {
+  } catch (err) {
+    console.error('Error in authenticateAdmin:', err);
     return null;
   }
 }

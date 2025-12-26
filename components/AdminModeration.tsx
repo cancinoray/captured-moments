@@ -101,27 +101,6 @@ export default function AdminModeration() {
     }
   };
 
-  const handleCommentAction = async (id: string, action: 'approve' | 'delete' | 'restore') => {
-    try {
-      let result;
-      if (action === 'approve') {
-        result = await approveComment(id);
-      } else if (action === 'delete') {
-        result = await deleteComment(id);
-      } else {
-        result = await restoreComment(id);
-      }
-
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setRefreshTrigger((prev) => prev + 1);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Action failed');
-    }
-  };
-
   const toggleSelect = (id: string) => {
     setSelectedItems((prev) => {
       const newSet = new Set(prev);

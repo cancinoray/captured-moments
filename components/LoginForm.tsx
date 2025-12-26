@@ -1,30 +1,44 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { loginAction } from '@/lib/actions/auth';
 
 export default function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     setLoading(true);
     setError(null);
+
+    const formData = new FormData(e.currentTarget);
 
     try {
       const result = await loginAction(formData);
       if (result?.error) {
         setError(result.error);
         setLoading(false);
+      } else if (result?.success) {
+        // Login successful, redirect to admin dashboard
+        router.push('/admin');
+        router.refresh();
+      } else {
+        // No result returned - might be an issue
+        setError('Login failed - no response from server');
+        setLoading(false);
       }
     } catch (err) {
+      console.error('Login error:', err);
       setError(err instanceof Error ? err.message : 'Login failed');
       setLoading(false);
     }
   }
 
   return (
-    <form action={handleSubmit} className="mt-8 space-y-6">
+    <form onSubmit={handleSubmit} className="mt-8 space-y-6">
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
           {error}

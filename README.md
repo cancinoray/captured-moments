@@ -28,14 +28,31 @@ npm install
 
 ### 2. Set Up Supabase
 
+📖 **For detailed step-by-step instructions, see [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)**
+
+Quick summary:
+
 1. Create a new Supabase project at [supabase.com](https://supabase.com)
 
-2. Run the database migration:
-   - Go to your Supabase Dashboard
-   - Navigate to SQL Editor
+2. **Find your API keys:**
+   - Go to Settings → API in your Supabase Dashboard
+   - Copy your **Project URL** (this is `NEXT_PUBLIC_SUPABASE_URL`)
+   - Copy your **anon public** key (this is `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
+   - Copy your **service_role** key (this is `SUPABASE_SERVICE_ROLE_KEY`)
+
+3. **Create `.env.local` file** in the root directory:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+```
+
+4. **Run the database migration:**
+   - Go to SQL Editor in Supabase Dashboard
    - Run the SQL from `supabase/migrations/001_initial_schema.sql`
 
-3. Set up Storage:
+5. **Set up Storage:**
    - Go to Storage section in Supabase Dashboard
    - Create a bucket named `media-uploads`
    - Configure it as:
@@ -44,40 +61,11 @@ npm install
      - **Allowed MIME types**: `image/*,video/*`
    - Run the SQL from `supabase/storage_policies.sql` in the SQL Editor
 
-4. Create an admin user:
-   - You'll need to create an admin user in the `admin_users` table
-   - Use the password hashing utility (see below) or create a script
+6. **Create an admin user:**
+   - Use the helper script: `node scripts/create-admin.js <username> <password>`
+   - Example: `node scripts/create-admin.js admin mypassword123`
 
-### 3. Environment Variables
-
-Create a `.env.local` file in the root directory:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-```
-
-You can find these values in your Supabase project settings under API.
-
-### 4. Create Admin User
-
-You can create an admin user using the Supabase SQL Editor:
-
-```sql
--- Replace 'admin' and 'your_password_hash' with your desired username and bcrypt hash
-INSERT INTO admin_users (username, password_hash)
-VALUES ('admin', '$2a$10$...'); -- Use bcrypt to hash your password
-```
-
-Or create a simple script to hash and insert:
-
-```typescript
-import { hashPassword } from './lib/auth';
-// Use this to hash passwords server-side
-```
-
-### 5. Run the Development Server
+### 3. Run the Development Server
 
 ```bash
 npm run dev
