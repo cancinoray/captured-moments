@@ -3,8 +3,8 @@
 import { supabaseAdmin } from '@/lib/supabase/server';
 
 export async function approveMedia(id: string) {
-  const { error } = await supabaseAdmin
-    .from('media_items')
+  const { error } = await (supabaseAdmin
+    .from('media_items') as any)
     .update({ is_approved: true, is_deleted: false })
     .eq('id', id);
 
@@ -16,8 +16,8 @@ export async function approveMedia(id: string) {
 }
 
 export async function deleteMedia(id: string) {
-  const { error } = await supabaseAdmin
-    .from('media_items')
+  const { error } = await (supabaseAdmin
+    .from('media_items') as any)
     .update({ is_deleted: true })
     .eq('id', id);
 
@@ -52,8 +52,8 @@ export async function permanentlyDeleteMedia(id: string, storagePath: string) {
 }
 
 export async function restoreMedia(id: string) {
-  const { error } = await supabaseAdmin
-    .from('media_items')
+  const { error } = await (supabaseAdmin
+    .from('media_items') as any)
     .update({ is_deleted: false })
     .eq('id', id);
 
@@ -65,8 +65,8 @@ export async function restoreMedia(id: string) {
 }
 
 export async function approveComment(id: string) {
-  const { error } = await supabaseAdmin
-    .from('comments')
+  const { error } = await (supabaseAdmin
+    .from('comments') as any)
     .update({ is_approved: true, is_deleted: false })
     .eq('id', id);
 
@@ -78,8 +78,8 @@ export async function approveComment(id: string) {
 }
 
 export async function deleteComment(id: string) {
-  const { error } = await supabaseAdmin
-    .from('comments')
+  const { error } = await (supabaseAdmin
+    .from('comments') as any)
     .update({ is_deleted: true })
     .eq('id', id);
 
@@ -91,8 +91,8 @@ export async function deleteComment(id: string) {
 }
 
 export async function restoreComment(id: string) {
-  const { error } = await supabaseAdmin
-    .from('comments')
+  const { error } = await (supabaseAdmin
+    .from('comments') as any)
     .update({ is_deleted: false })
     .eq('id', id);
 

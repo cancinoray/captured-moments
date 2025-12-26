@@ -57,8 +57,8 @@ export async function getAdminSession(): Promise<AdminUser | null> {
 
 export async function authenticateAdmin(username: string, password: string): Promise<AdminUser | null> {
   try {
-    const { data, error } = await supabaseAdmin
-      .from('admin_users')
+    const { data, error } = await (supabaseAdmin
+      .from('admin_users') as any)
       .select('*')
       .eq('username', username)
       .single();
