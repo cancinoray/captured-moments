@@ -123,7 +123,8 @@ export default function AdminModeration() {
   };
 
   const bulkApprove = async () => {
-    for (const id of selectedItems) {
+    const itemsArray = Array.from(selectedItems);
+    for (const id of itemsArray) {
       if (view === 'media') {
         await approveMedia(id);
       } else {
@@ -135,7 +136,8 @@ export default function AdminModeration() {
   };
 
   const bulkDelete = async () => {
-    for (const id of selectedItems) {
+    const itemsArray = Array.from(selectedItems);
+    for (const id of itemsArray) {
       if (view === 'media') {
         await deleteMedia(id);
       } else {
