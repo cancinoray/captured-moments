@@ -102,7 +102,7 @@ export default function CommentSection({ mediaId }: CommentSectionProps) {
 
       const { error: insertError } = await supabase
         .from('comments')
-        .insert(newComment);
+        .insert([newComment]);
 
       if (insertError) throw insertError;
 
